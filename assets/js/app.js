@@ -19,6 +19,8 @@ var lifeLostText;
 var playing = false;
 var startButton;
 
+var bounce;
+
 function preload() {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.pageAlignHorizontally = true;
@@ -29,6 +31,8 @@ function preload() {
   game.load.image('ball', './assets/img/ball.png');
   game.load.image('brick', './assets/img/brick.png');
   game.load.spritesheet('button', './assets/img/button.png', 120, 40);
+
+  game.load.audio('bounce','./assets/audio/bounce.mp3')
 }
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -70,6 +74,9 @@ function create() {
 
   startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
   startButton.anchor.set(0.5);
+
+  //sounds
+  bounce = game.add.audio('bounce');
 }
 function update() {
   game.physics.arcade.collide(ball, paddle, ballHitPaddle);
@@ -113,6 +120,7 @@ function ballHitBrick(ball, brick) {
     brick.kill();
   }, this);
   killTween.start();
+  bounce.play();
   score += 10;
   scoreText.setText('Points: '+score);
 
