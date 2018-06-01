@@ -21,6 +21,8 @@ var startButton;
 
 var bounce;
 
+var pad1;
+
 function preload() {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.pageAlignHorizontally = true;
@@ -65,10 +67,10 @@ function create() {
   initBricks()
 
   // scoring
-  scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' });
-  livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, { font: '18px Arial', fill: '#0095DD' });
+  scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Press Start 2P', fill: '#0095DD' });
+  livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, { font: '18px Press Start 2P', fill: '#0095DD' });
   livesText.anchor.set(1,0);
-  lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', { font: '18px Arial', fill: '#0095DD' });
+  lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', { font: '18px Press Start 2P', fill: '#0095DD' });
   lifeLostText.anchor.set(0.5);
   lifeLostText.visible = false;
 
@@ -77,13 +79,23 @@ function create() {
 
   //sounds
   bounce = game.add.audio('bounce');
+
+  //control
+  game.input.gamepad.start();
+  pad1 = game.input.gamepad.pad1;
+
 }
 function update() {
   game.physics.arcade.collide(ball, paddle, ballHitPaddle);
   game.physics.arcade.collide(ball, bricks, ballHitBrick);
-  if(playing) {
-    paddle.x = game.input.x || game.world.width*0.5;
-}
+  // if(playing) {
+  //   paddle.x = game.input.x || game.world.width*0.5;
+  // }
+  if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
+        paddle.x-=5;
+    } else if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
+        paddle.x+=5;
+  }
 }
 
 function initBricks() {
