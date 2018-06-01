@@ -38,6 +38,8 @@ function preload() {
   game.load.spritesheet('button', './assets/img/button.png', 120, 40);
 
   game.load.audio('bounce','./assets/audio/bounce.mp3')
+  game.load.audio('hit1','./assets/audio/hit1.mp3')
+  game.load.audio('hit2','./assets/audio/hit2.mp3')
 }
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -74,14 +76,16 @@ function create() {
   livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, textStyle);
   livesText.anchor.set(1,0);
   // lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', textStyle);
-  lifeLostText.anchor.set(0.5);
-  lifeLostText.visible = false;
+  // lifeLostText.anchor.set(0.5);
+  // lifeLostText.visible = false;
 
   startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
   startButton.anchor.set(0.5);
 
   //sounds
   bounce = game.add.audio('bounce');
+  hit1 = game.add.audio('hit1');
+  hit2 = game.add.audio('hit2');
 
   //control
   game.input.gamepad.start();
@@ -145,11 +149,13 @@ function ballHitBrick(ball, brick) {
       brick.kill();
     }, this);
     killTween.start();
+    hit2.play();
   } else {
     brick.hit = true;
+    hit1.play();
     brick.loadTexture('brick-broken', 0);
   }
-  bounce.play();
+  
   score += 10;
   scoreText.setText('Points: '+ score);
 
@@ -182,7 +188,8 @@ function ballLeaveScreen() {
   }
 }
 function ballHitPaddle(ball, paddle) {
-  ball.animations.play('wobble');
+  bounce.play();
+  // ball.animations.play('wobble');
   ball.body.velocity.x = -1 * 10 * (paddle.x - ball.x);
 }
 function startGame() {
