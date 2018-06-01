@@ -34,6 +34,7 @@ function preload() {
   game.load.image('paddle', './assets/img/paddle.png');
   game.load.image('ball', './assets/img/ball.png');
   game.load.image('brick', './assets/img/brick.png');
+  game.load.image('brick-broken', './assets/img/brick-broken.png')
   game.load.spritesheet('button', './assets/img/button.png', 120, 40);
 
   game.load.audio('bounce','./assets/audio/bounce.mp3')
@@ -46,7 +47,7 @@ function create() {
     game.world.width * 0.5, 
     game.world.height - 50, 
     'ball');
-  ball.animations.add('wobble', [0,1,0,2,0,1,0,2,0], 24);
+  // ball.animations.add('wobble', [0,1,0,2,0,1,0,2,0], 24);
   ball.anchor.set(0.5);
   game.physics.enable(ball, Phaser.Physics.ARCADE);
   ball.body.collideWorldBounds = true;
@@ -72,7 +73,7 @@ function create() {
   scoreText = game.add.text(5, 5, 'Points: 0', textStyle);
   livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, textStyle);
   livesText.anchor.set(1,0);
-  lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', textStyle);
+  // lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', textStyle);
   lifeLostText.anchor.set(0.5);
   lifeLostText.visible = false;
 
@@ -127,9 +128,9 @@ function initBricks() {
       var brickX = (c * (brickInfo.width + brickInfo.padding)) + brickInfo.offset.left;
       var brickY = (r * (brickInfo.height + brickInfo.padding)) + brickInfo.offset.top;
       newBrick = game.add.sprite(brickX, brickY, 'brick');
-      debugger
       game.physics.enable(newBrick, Phaser.Physics.ARCADE);
       newBrick.body.immovable = true;
+      newBrick.hit = false;
       newBrick.anchor.set(0.5);
       bricks.add(newBrick);
     }
@@ -137,16 +138,20 @@ function initBricks() {
 }
 function ballHitBrick(ball, brick) {
 
-
-  var killTween = game.add.tween(brick.scale);
-  killTween.to({x:0 ,y:0}, 200, Phaser.Easing.Linear.None);
-  killTween.onComplete.addOnce(function(){
-    brick.kill();
-  }, this);
-  killTween.start();
+  if (brick.hit) {
+    var killTween = game.add.tween(brick.scale);
+    killTween.to({x:0 ,y:0}, 200, Phaser.Easing.Linear.None);
+    killTween.onComplete.addOnce(function(){
+      brick.kill();
+    }, this);
+    killTween.start();
+  } else {
+    brick.hit = true;
+    brick.loadTexture('brick-broken', 0);
+  }
   bounce.play();
   score += 10;
-  scoreText.setText('Points: '+score);
+  scoreText.setText('Points: '+ score);
 
   var count_alive = 0;
   for (i = 0; i < bricks.children.length; i++) {
