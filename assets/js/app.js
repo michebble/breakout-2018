@@ -30,7 +30,7 @@ function preload() {
   game.scale.pageAlignHorizontally = true;
   game.scale.pageAlignVertically = true;
   game.stage.backgroundColor = '#eee';
-  game.load.spritesheet('ball', './assets/img/wobble.png', 20, 20);
+  // game.load.spritesheet('ball', './assets/img/wobble.png', 20, 20);
   game.load.image('paddle', './assets/img/paddle.png');
   game.load.image('ball', './assets/img/ball.png');
   game.load.image('brick', './assets/img/brick.png');
@@ -106,9 +106,9 @@ function update() {
 }
 function paddleMovement() {
   if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
-    paddle.x-=5;
+    paddle.x -= 10;
   } else if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
-    paddle.x+=5;
+    paddle.x += 10;
   }
 }
 
@@ -174,7 +174,7 @@ function ballLeaveScreen() {
   lives--;
   if(lives) {
       livesText.setText('Lives: '+lives);
-      lifeLostText.visible = true;
+      // lifeLostText.visible = true;
       ball.reset(game.world.width * 0.5, game.world.height -50);
       paddle.reset(game.world.width * 0.5, game.world.height - 5);
       game.input.onDown.addOnce(function(){
