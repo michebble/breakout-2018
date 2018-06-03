@@ -34,12 +34,13 @@ function preload() {
   game.load.image('paddle', './assets/img/paddle.png');
   game.load.image('ball', './assets/img/ball.png');
   game.load.image('brick', './assets/img/brick.png');
-  game.load.image('brick-broken', './assets/img/brick-broken.png')
+  game.load.image('brick-broken', './assets/img/brick-broken.png');
   game.load.spritesheet('button', './assets/img/button.png', 120, 40);
 
-  game.load.audio('bounce','./assets/audio/bounce.mp3')
-  game.load.audio('hit1','./assets/audio/hit1.mp3')
-  game.load.audio('hit2','./assets/audio/hit2.mp3')
+  game.load.audio('bounce','./assets/audio/bounce.mp3');
+  game.load.audio('hit1','./assets/audio/hit1.mp3');
+  game.load.audio('hit2','./assets/audio/hit2.mp3');
+  game.load.audio('loss', './assets/audio/loss.mp3');
 }
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -86,6 +87,7 @@ function create() {
   bounce = game.add.audio('bounce');
   hit1 = game.add.audio('hit1');
   hit2 = game.add.audio('hit2');
+  loss = game.add.audio('loss');
 
   //control
   game.input.gamepad.start();
@@ -95,12 +97,13 @@ function create() {
 function update() {
   game.physics.arcade.collide(ball, paddle, ballHitPaddle);
   game.physics.arcade.collide(ball, bricks, ballHitBrick);
-  // if(playing) {
-  //   paddle.x = game.input.x || game.world.width*0.5;
-  // }
-  paddleMovement()
+  if(playing) {
+    // paddle.x = game.input.x || game.world.width*0.5;
+    paddleMovement()
+  } 
   
-  if (startButton && pad1.isDown(Phaser.Gamepad.XBOX360_A)) {
+  
+  if (!playing && pad1.isDown(Phaser.Gamepad.XBOX360_A)) {
      startGame()
   }
 }
@@ -171,14 +174,16 @@ function ballHitBrick(ball, brick) {
   }
 }
 function ballLeaveScreen() {
+  playing = false;
   lives--;
   if(lives) {
+      loss.play();
       livesText.setText('Lives: '+lives);
       // lifeLostText.visible = true;
       ball.reset(game.world.width * 0.5, game.world.height -50);
       paddle.reset(game.world.width * 0.5, game.world.height - 5);
       game.input.onDown.addOnce(function(){
-          lifeLostText.visible = false;
+          // lifeLostText.visible = false;
           ball.body.velocity.set(200, -200);
       }, this);
   }
