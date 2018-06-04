@@ -1,23 +1,17 @@
 var menuState = {
   create: function() {
-    var titleText = game.add.text(80, 100, 'BREAKOUT 2018', { font: '70px Iceland', fill: 'black' });
+    var titleText = game.add.text(game.world.width*0.5, game.world.height*0.25, 'BREAKOUT 2018', messageFont);
     titleText.stroke = "#32CD32";
     titleText.strokeThickness = 6;
-    var startText = game.add.text(80, 500, 'press button to play', { font: '28px Iceland', fill: 'black' });
+    titleText.anchor.set(0.5);
+    var startText = game.add.text(game.world.width*0.5, game.world.height*0.75, 'press START button to play', guiFont);
     startText.stroke = "#32CD32";
     startText.strokeThickness = 6;
+    startText.anchor.set(0.5);
 
 
-    buttonA = pad1.getButton(Phaser.Gamepad.XBOX360_A);
-    buttonB = pad1.getButton(Phaser.Gamepad.XBOX360_B);
-    buttonX = pad1.getButton(Phaser.Gamepad.XBOX360_X);
-    buttonY = pad1.getButton(Phaser.Gamepad.XBOX360_Y);
+    
     buttonStart = pad1.getButton(Phaser.Gamepad.XBOX360_START);
-  
-    buttonA.onDown.add(this.start, this);
-    buttonB.onDown.add(this.start, this);
-    buttonX.onDown.add(this.start, this);
-    buttonY.onDown.add(this.start, this);
     buttonStart.onDown.add(this.start, this);
   },
   start: function() {

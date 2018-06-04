@@ -56,7 +56,7 @@ var playState = {
     loss = game.add.audio('loss');
     music = game.add.audio('bg-music');
 
-
+    music.play();
   },
   win: function(){
     game.state.start('game-over')
