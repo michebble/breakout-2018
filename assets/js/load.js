@@ -8,7 +8,7 @@ var loadState = {
     // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
-    game.stage.backgroundColor = '#eee';
+    game.stage.backgroundColor = '#000000';
   
     game.load.image('paddle', './assets/img/paddle.png');
     game.load.image('ball', './assets/img/ball.png');

@@ -1,5 +1,6 @@
 var playState = {
   create: function() {
+    
     background = game.add.image(0, 0, 'background');
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -35,7 +36,7 @@ var playState = {
     scoreText.stroke = "#32CD32";
     scoreText.strokeThickness = 2;
     scoreText.setShadow(2, 2, "#333333", 2, true, false);
-    livesText = game.add.text(game.world.width-5, 5, 'LIVES: '+lives, guiFont);
+    livesText = game.add.text(game.world.width-5, 5, 'LIVES: '+ lives, guiFont);
     livesText.stroke = "#32CD32";
     livesText.strokeThickness = 2;
     livesText.anchor.set(1,0);
@@ -140,7 +141,7 @@ function ballLeaveScreen() {
   loss.play();
   lives--;
   if(lives) {
-    livesText.setText('Lives: '+lives);
+    livesText.setText('LIVES: '+ lives);
     ball.reset(game.world.width * 0.5, game.world.height -50);
     paddle.reset(game.world.width * 0.5, game.world.height - 5);
     game.input.onDown.addOnce(function(){

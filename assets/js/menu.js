@@ -13,6 +13,7 @@ var menuState = {
     buttonX = pad1.getButton(Phaser.Gamepad.XBOX360_X);
     buttonY = pad1.getButton(Phaser.Gamepad.XBOX360_Y);
     buttonStart = pad1.getButton(Phaser.Gamepad.XBOX360_START);
+  
     buttonA.onDown.add(this.start, this);
     buttonB.onDown.add(this.start, this);
     buttonX.onDown.add(this.start, this);
