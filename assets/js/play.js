@@ -57,6 +57,9 @@ var playState = {
 
 
   },
+  win: function(){
+    game.state.start('game-over')
+  },
   update: function() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
     game.physics.arcade.collide(ball, bricks, ballHitBrick);
@@ -138,18 +141,13 @@ function ballLeaveScreen() {
   lives--;
   if(lives) {
     livesText.setText('Lives: '+lives);
-    // lifeLostText.visible = true;
     ball.reset(game.world.width * 0.5, game.world.height -50);
     paddle.reset(game.world.width * 0.5, game.world.height - 5);
     game.input.onDown.addOnce(function(){
-        // lifeLostText.visible = false;
         ball.body.velocity.set(200, -200);
     }, this);
   } else {
-    ball.destroy()
-    addHighScore = game.add.text(game.world.width*0.5, game.world.height*0.25, `Congratulations!\nNew High Score: ${score}`, messageFont);
-    addHighScore.anchor.set(0.5);
-    addHighScore.visible = true;
+    this.win()
   }
 }
 function ballHitPaddle(ball, paddle) {
@@ -162,9 +160,7 @@ function randomDirection() {
   return random;
 }
 function startGame() {
-  // startButton.destroy();
   newGameText.visible = false;
-  newGameTextBox.visible = false;
   var randomX = randomDirection();
   ball.body.velocity.set(randomX, -200);
   playing = true;
