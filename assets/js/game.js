@@ -1,10 +1,10 @@
 var game = new Phaser.Game(960, 640, Phaser.CANVAS, null);
 
-game.state.add('boot');
-game.state.add('load');
-game.state.add('menu');
-game.state.add('play');
-game.state.add('game-over');
+game.state.add('boot', bootState);
+game.state.add('load', loadState);
+game.state.add('menu', menuState);
+game.state.add('play', playState);
+game.state.add('game-over', gameOverState);
 
 var ball;
 var paddle;
@@ -15,11 +15,8 @@ var scoreText;
 var score = 0;
 var lives = 3;
 var livesText;
-var lifeLostText;
 var playing = false;
-var startButton;
-game.input.gamepad.start();
-var pad1 = game.input.gamepad.pad1;
+var pad1;
 
 const guiFont = { font: '28px Iceland', fill: 'limegreen' };
 const messageFont = { font: '70px Iceland', fill: 'limegreen' };

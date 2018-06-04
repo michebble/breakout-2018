@@ -1,8 +1,10 @@
 var loadState = {
   preload: function() {
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
     var loadingText = game.add.text(80, 150, 'LOADING...', { font: '28px Iceland', fill: 'limegreen' });
 
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.stage.backgroundColor = '#eee';
