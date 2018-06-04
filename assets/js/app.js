@@ -118,6 +118,7 @@ function update() {
      startGame()
   }
 }
+
 function paddleMovement() {
   if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
     paddle.body.x -= 15;
