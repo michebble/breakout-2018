@@ -18,8 +18,8 @@ var livesText;
 var playing = false;
 var pad1;
 
-const guiFont = { font: '28px Iceland', fill: 'limegreen' };
-const messageFont = { font: '70px Iceland', fill: 'limegreen' };
+const guiFont = { font: '28px Iceland', fill: 'black' };
+const messageFont = { font: '70px Iceland', fill: 'black' };
 const letters = ['_','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 

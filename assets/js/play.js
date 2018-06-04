@@ -32,16 +32,19 @@ var playState = {
 
     // scoring
     scoreText = game.add.text(5, 5, `SCORE: ${score}`, guiFont);
+    scoreText.stroke = "#32CD32";
+    scoreText.strokeThickness = 2;
+    scoreText.setShadow(2, 2, "#333333", 2, true, false);
     livesText = game.add.text(game.world.width-5, 5, 'LIVES: '+lives, guiFont);
+    livesText.stroke = "#32CD32";
+    livesText.strokeThickness = 2;
     livesText.anchor.set(1,0);
     
     //new Game
-    newGameTextBox = game.add.graphics(game.world.width*0.16, game.world.height*0.455);
-    newGameTextBox.lineStyle(2, 0x32CD32, 1);
-    newGameTextBox.beginFill(0x000000, 1);
-    newGameTextBox.drawRect(0, 0, 647, 60);
-    newGameTextBox.visible = true;
     newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'press B button to start', messageFont);
+    newGameText.stroke = "#32CD32";
+    newGameText.strokeThickness = 6;
+    newGameText.setShadow(2, 2, "#333333", 2, true, false);
     newGameText.anchor.set(0.5);
     newGameText.visible = true;
 
