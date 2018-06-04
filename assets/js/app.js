@@ -19,9 +19,9 @@ var lifeLostText;
 var playing = false;
 var startButton;
 
-var textStyle = { font: '18px MedievalSharp', fill: 'black' };
+var textStyle = { font: '24px Iceland', fill: 'limegreen' };
 
-var bounce;
+// var bounce;
 
 var pad1;
 
@@ -36,13 +36,17 @@ function preload() {
   game.load.image('brick', './assets/img/brick.png');
   game.load.image('brick-broken', './assets/img/brick-broken.png');
   game.load.spritesheet('button', './assets/img/button.png', 120, 40);
+  game.load.image('background', './assets/img/background.jpg');
 
-  game.load.audio('bounce','./assets/audio/bounce.mp3');
-  game.load.audio('hit1','./assets/audio/hit1.mp3');
+  game.load.audio('bounce','./assets/audio/hit-paddle.mp3');
+  game.load.audio('hit1','./assets/audio/hit-block.mp3');
   game.load.audio('hit2','./assets/audio/hit2.mp3');
   game.load.audio('loss', './assets/audio/loss.mp3');
+  game.load.audio('bg-music', './assets/audio/bg-music.ogg');
 }
 function create() {
+  background = game.add.image(0, 0, 'background');
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.physics.arcade.checkCollision.down = false;
   //ball
@@ -88,6 +92,9 @@ function create() {
   hit1 = game.add.audio('hit1');
   hit2 = game.add.audio('hit2');
   loss = game.add.audio('loss');
+  music = game.add.audio('bg-music');
+
+  // music.play();
 
   //control
   game.input.gamepad.start();
@@ -101,7 +108,6 @@ function update() {
     // paddle.x = game.input.x || game.world.width*0.5;
     paddleMovement()
   } 
-  
   
   if (!playing && pad1.isDown(Phaser.Gamepad.XBOX360_A)) {
      startGame()
