@@ -60,7 +60,6 @@ function create() {
   ball.body.collideWorldBounds = true;
   ball.body.bounce.set(1);
   ball.checkWorldBounds = true;
-  
   ball.events.onOutOfBounds.add(ballLeaveScreen, this);
 
     // paddle
@@ -115,12 +114,11 @@ function update() {
 }
 function paddleMovement() {
   if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
-    paddle.x -= 10;
+    paddle.body.x -= 15;
   } else if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
-    paddle.x += 10;
+    paddle.body.x += 15;
   }
 }
-
 function initBricks() {
   brickInfo = {
     width: 50,
@@ -150,7 +148,7 @@ function initBricks() {
   }
 }
 function ballHitBrick(ball, brick) {
-
+  hit1.play();
   if (brick.hit) {
     var killTween = game.add.tween(brick.scale);
     killTween.to({x:0 ,y:0}, 200, Phaser.Easing.Linear.None);
@@ -158,15 +156,13 @@ function ballHitBrick(ball, brick) {
       brick.kill();
     }, this);
     killTween.start();
-    hit2.play();
   } else {
     brick.hit = true;
-    hit1.play();
     brick.loadTexture('brick-broken', 0);
   }
   
   score += 10;
-  scoreText.setText('Points: '+ score);
+  scoreText.setText('SCORE: '+ score);
 
   var count_alive = 0;
   for (i = 0; i < bricks.children.length; i++) {
@@ -203,8 +199,14 @@ function ballHitPaddle(ball, paddle) {
   // ball.animations.play('wobble');
   ball.body.velocity.x = -1 * 10 * (paddle.x - ball.x);
 }
+function randomDirection() {
+  var random = Math.floor(Math.random() * 399) - 199;
+  return random;
+}
+
 function startGame() {
   startButton.destroy();
-  ball.body.velocity.set(200, -200);
+  var randomX = randomDirection();
+  ball.body.velocity.set(randomX, -200);
   playing = true;
 }
