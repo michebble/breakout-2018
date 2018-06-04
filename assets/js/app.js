@@ -19,7 +19,9 @@ var lifeLostText;
 var playing = false;
 var startButton;
 
-var textStyle = { font: '24px Iceland', fill: 'limegreen' };
+const guiFont = { font: '28px Iceland', fill: 'limegreen' };
+const messageFont = { font: '70px Iceland', fill: 'limegreen' };
+const letters = ['_','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 // var bounce;
 
@@ -35,7 +37,7 @@ function preload() {
   game.load.image('ball', './assets/img/ball.png');
   game.load.image('brick', './assets/img/brick.png');
   game.load.image('brick-broken', './assets/img/brick-broken.png');
-  game.load.spritesheet('button', './assets/img/button.png', 120, 40);
+  // game.load.spritesheet('button', './assets/img/button.png', 120, 40);
   game.load.image('background', './assets/img/background.jpg');
 
   game.load.audio('bounce','./assets/audio/hit-paddle.mp3');
@@ -76,15 +78,19 @@ function create() {
   initBricks()
 
   // scoring
-  scoreText = game.add.text(5, 5, 'Points: 0', textStyle);
-  livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, textStyle);
+  scoreText = game.add.text(5, 5, `SCORE: ${score}`, guiFont);
+  livesText = game.add.text(game.world.width-5, 5, 'LIVES: '+lives, guiFont);
   livesText.anchor.set(1,0);
-  // lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', textStyle);
-  // lifeLostText.anchor.set(0.5);
-  // lifeLostText.visible = false;
-
-  startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
-  startButton.anchor.set(0.5);
+  
+  //new Game
+  newGameTextBox = game.add.graphics(game.world.width*0.16, game.world.height*0.455);
+  newGameTextBox.lineStyle(2, 0x32CD32, 1);
+  newGameTextBox.beginFill(0x000000, 1);
+  newGameTextBox.drawRect(0, 0, 647, 60);
+  newGameTextBox.visible = true;
+  newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'press B button to start', messageFont);
+  newGameText.anchor.set(0.5);
+  newGameText.visible = true;
 
   //sounds
   bounce = game.add.audio('bounce');
@@ -162,7 +168,7 @@ function ballHitBrick(ball, brick) {
   }
   
   score += 10;
-  scoreText.setText('SCORE: '+ score);
+  scoreText.setText(`SCORE: ${score}`);
 
   var count_alive = 0;
   for (i = 0; i < bricks.children.length; i++) {
@@ -171,27 +177,27 @@ function ballHitBrick(ball, brick) {
     }
   }
   if (count_alive == 0) {
-    
     location.reload();
   }
 }
 function ballLeaveScreen() {
   playing = false;
+  loss.play();
   lives--;
   if(lives) {
-      loss.play();
-      livesText.setText('Lives: '+lives);
-      // lifeLostText.visible = true;
-      ball.reset(game.world.width * 0.5, game.world.height -50);
-      paddle.reset(game.world.width * 0.5, game.world.height - 5);
-      game.input.onDown.addOnce(function(){
-          // lifeLostText.visible = false;
-          ball.body.velocity.set(200, -200);
-      }, this);
-  }
-  else {
-      alert('You lost, game over!');
-      location.reload();
+    livesText.setText('Lives: '+lives);
+    // lifeLostText.visible = true;
+    ball.reset(game.world.width * 0.5, game.world.height -50);
+    paddle.reset(game.world.width * 0.5, game.world.height - 5);
+    game.input.onDown.addOnce(function(){
+        // lifeLostText.visible = false;
+        ball.body.velocity.set(200, -200);
+    }, this);
+  } else {
+    ball.destroy()
+    addHighScore = game.add.text(game.world.width*0.5, game.world.height*0.25, `Congratulations!\nNew High Score: ${score}`, messageFont);
+    addHighScore.anchor.set(0.5);
+    addHighScore.visible = true;
   }
 }
 function ballHitPaddle(ball, paddle) {
@@ -203,12 +209,20 @@ function randomDirection() {
   var random = Math.floor(Math.random() * 399) - 199;
   return random;
 }
-
 function startGame() {
-  startButton.destroy();
+  // startButton.destroy();
+  newGameText.visible = false;
+  newGameTextBox.visible = false;
   var randomX = randomDirection();
   ball.body.velocity.set(randomX, -200);
   playing = true;
 }
 
-var letters = ['_','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+function letterUp() {
+  x>=26? x=0:x+=1
+  return letters[x]
+}
+function letterDown() {
+  x <= 0 ? x=26:x-=1
+  return letters[x]
+}
