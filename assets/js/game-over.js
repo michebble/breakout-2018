@@ -13,26 +13,30 @@ var gameOverState = {
     score = 0;
     lives = 3;
 
-    buttonA = pad.getButton(Phaser.Gamepad.XBOX360_A);
-    buttonB = pad.getButton(Phaser.Gamepad.XBOX360_B);
-    buttonX = pad.getButton(Phaser.Gamepad.XBOX360_X);
-    buttonY = pad.getButton(Phaser.Gamepad.XBOX360_Y);
-    buttonStart = pad.getButton(Phaser.Gamepad.XBOX360_START);
-    buttonBack = pad.getButton(Phaser.Gamepad.XBOX360_BACK);
-    buttonLB = pad.getButton(Phaser.Gamepad.XBOX360_LEFT_BUMPER);
-    buttonLT = pad.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
-    buttonRB = pad.getButton(Phaser.Gamepad.XBOX360_RIGHT_BUMPER);
-    buttonRT = pad.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
-    buttonA.onDown.add(this.start, this);
-    buttonB.onDown.add(this.start, this);
-    buttonX.onDown.add(this.start, this);
-    buttonY.onDown.add(this.start, this);
-    buttonStart.onDown.add(this.start, this);
-    buttonBack.onDown.add(this.start, this);
-    buttonLB.onDown.add(this.start, this);
-    buttonLT.onDown.add(this.start, this);
-    buttonRB.onDown.add(this.start, this);
-    buttonRT.onDown.add(this.start, this);
+    if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      buttonA = pad.getButton(Phaser.Gamepad.XBOX360_A);
+      buttonB = pad.getButton(Phaser.Gamepad.XBOX360_B);
+      buttonX = pad.getButton(Phaser.Gamepad.XBOX360_X);
+      buttonY = pad.getButton(Phaser.Gamepad.XBOX360_Y);
+      buttonStart = pad.getButton(Phaser.Gamepad.XBOX360_START);
+      buttonBack = pad.getButton(Phaser.Gamepad.XBOX360_BACK);
+      buttonLB = pad.getButton(Phaser.Gamepad.XBOX360_LEFT_BUMPER);
+      buttonLT = pad.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
+      buttonRB = pad.getButton(Phaser.Gamepad.XBOX360_RIGHT_BUMPER);
+      buttonRT = pad.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
+      buttonA.onDown.add(this.start, this);
+      buttonB.onDown.add(this.start, this);
+      buttonX.onDown.add(this.start, this);
+      buttonY.onDown.add(this.start, this);
+      buttonStart.onDown.add(this.start, this);
+      buttonBack.onDown.add(this.start, this);
+      buttonLB.onDown.add(this.start, this);
+      buttonLT.onDown.add(this.start, this);
+      buttonRB.onDown.add(this.start, this);
+      buttonRT.onDown.add(this.start, this);
+    } else {
+      game.input.onDown.add(this.start, this);
+    }
 
   },
   start: function() {

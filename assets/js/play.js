@@ -1,6 +1,8 @@
 var playState = {
   create: function() {
-    clearButtons();
+    if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      clearButtons();
+    }
 
     background = game.add.image(0, 0, 'background');
 
@@ -43,7 +45,7 @@ var playState = {
     livesText.anchor.set(1,0);
     
     //new Game
-    newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'press B button to start', messageFont);
+    newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Ready?', messageFont);
     newGameText.stroke = "#32CD32";
     newGameText.strokeThickness = 6;
     newGameText.setShadow(2, 2, "#333333", 2, true, false);
@@ -65,17 +67,34 @@ var playState = {
   update: function() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
     game.physics.arcade.collide(ball, bricks, ballHitBrick);
-    if(playing) {
-      // paddle.x = game.input.x || game.world.width*0.5;
-      paddleMovement()
-    } 
-    if (!playing && pad.isDown(Phaser.Gamepad.XBOX360_A)) {
-      startGame()
+
+    if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      padControl();
+    } else {
+      mouseControl();
     }
+    
   }
 }
 
-function paddleMovement() {
+function mouseControl() {
+  if(playing) {
+    paddle.x = game.input.x || game.world.width*0.5;
+  } else {
+    startGame();
+  }
+}
+
+function padControl() {
+  if(playing) {
+    gamepadMovement();
+  } 
+  if (!playing && pad.isDown(Phaser.Gamepad.XBOX360_A)) {
+    startGame();
+  }
+}
+
+function gamepadMovement() {
   if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
     paddle.body.x -= 15;
   } else if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
