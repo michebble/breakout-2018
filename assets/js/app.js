@@ -25,7 +25,7 @@ const letters = ['_','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'
 
 // var bounce;
 
-var pad1;
+var pad;
 
 function preload() {
   // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -103,7 +103,7 @@ function create() {
 
   //control
   game.input.gamepad.start();
-  pad1 = game.input.gamepad.pad1;
+  pad = game.input.gamepad.pad1;
 
 }
 function update() {
@@ -114,15 +114,15 @@ function update() {
     paddleMovement()
   } 
   
-  if (!playing && pad1.isDown(Phaser.Gamepad.XBOX360_A)) {
+  if (!playing && pad.isDown(Phaser.Gamepad.XBOX360_A)) {
      startGame()
   }
 }
 
 function paddleMovement() {
-  if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
+  if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
     paddle.body.x -= 15;
-  } else if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
+  } else if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
     paddle.body.x += 15;
   }
 }

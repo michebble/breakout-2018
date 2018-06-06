@@ -16,7 +16,7 @@ var score = 0;
 var lives = 3;
 var livesText;
 var playing = false;
-var pad1;
+var pad;
 
 const guiFont = { font: '28px Iceland', fill: 'black' };
 const messageFont = { font: '70px Iceland', fill: 'black' };
