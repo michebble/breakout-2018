@@ -1,6 +1,9 @@
 var playState = {
   create: function() {
-    
+    if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      clearButtons();
+    }
+
     background = game.add.image(0, 0, 'background');
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -42,7 +45,7 @@ var playState = {
     livesText.anchor.set(1,0);
     
     //new Game
-    newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'press B button to start', messageFont);
+    newGameText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Ready?', messageFont);
     newGameText.stroke = "#32CD32";
     newGameText.strokeThickness = 6;
     newGameText.setShadow(2, 2, "#333333", 2, true, false);
@@ -64,20 +67,37 @@ var playState = {
   update: function() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
     game.physics.arcade.collide(ball, bricks, ballHitBrick);
-    if(playing) {
-      // paddle.x = game.input.x || game.world.width*0.5;
-      paddleMovement()
-    } 
-    if (!playing && pad1.isDown(Phaser.Gamepad.XBOX360_A)) {
-      startGame()
+
+    if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      padControl();
+    } else {
+      mouseControl();
     }
+    
   }
 }
 
-function paddleMovement() {
-  if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
+function mouseControl() {
+  if(playing) {
+    paddle.x = game.input.x || game.world.width*0.5;
+  } else {
+    game.input.onDown.add(startGame, this);
+  }
+}
+
+function padControl() {
+  if(playing) {
+    gamepadMovement();
+  } 
+  if (!playing && pad.isDown(Phaser.Gamepad.XBOX360_A)) {
+    startGame();
+  }
+}
+
+function gamepadMovement() {
+  if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
     paddle.body.x -= 15;
-  } else if (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
+  } else if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
     paddle.body.x += 15;
   }
 }
@@ -166,12 +186,15 @@ function startGame() {
   ball.body.velocity.set(randomX, -200);
   playing = true;
 }
-
-function letterUp() {
-  x>=26? x=0:x+=1
-  return letters[x]
-}
-function letterDown() {
-  x <= 0 ? x=26:x-=1
-  return letters[x]
+function clearButtons() {
+  buttonA.onDown.removeAll();
+  buttonB.onDown.removeAll();
+  buttonX.onDown.removeAll();
+  buttonY.onDown.removeAll();
+  buttonStart.onDown.removeAll();
+  buttonBack.onDown.removeAll();
+  buttonLB.onDown.removeAll();
+  buttonLT.onDown.removeAll();
+  buttonRB.onDown.removeAll();
+  buttonRT.onDown.removeAll();
 }
