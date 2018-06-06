@@ -5,7 +5,7 @@ var gameOverState = {
     highScoreText.strokeThickness = 6;
     highScoreText.anchor.set(0.5);
     
-    playAgainText = game.add.text(game.world.width*0.5, game.world.height*0.75, "Press any button to play again", guiFont);
+    playAgainText = game.add.text(game.world.width*0.5, game.world.height*0.75, playMessage + ' again', guiFont);
     playAgainText.stroke = "#32CD32";
     playAgainText.strokeThickness = 6;
     playAgainText.anchor.set(0.5);

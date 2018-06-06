@@ -1,15 +1,7 @@
 var menuState = {
   create: function() {
-    var titleText = game.add.text(game.world.width*0.5, game.world.height*0.25, 'BREAKOUT 2018', messageFont);
-    titleText.stroke = "#32CD32";
-    titleText.strokeThickness = 6;
-    titleText.anchor.set(0.5);
-    var startText = game.add.text(game.world.width*0.5, game.world.height*0.75, 'press any button to play', guiFont);
-    startText.stroke = "#32CD32";
-    startText.strokeThickness = 6;
-    startText.anchor.set(0.5);
-
     if (game.input.gamepad.supported && game.input.gamepad.active && pad.connected) {
+      playMessage = 'press any button to play';
       buttonA = pad.getButton(Phaser.Gamepad.XBOX360_A);
       buttonB = pad.getButton(Phaser.Gamepad.XBOX360_B);
       buttonX = pad.getButton(Phaser.Gamepad.XBOX360_X);
@@ -31,8 +23,18 @@ var menuState = {
       buttonRB.onDown.add(this.start, this);
       buttonRT.onDown.add(this.start, this);
     } else {
+      playMessage = 'click to play';
       game.input.onDown.add(this.start, this);
     }
+
+    var titleText = game.add.text(game.world.width*0.5, game.world.height*0.25, 'BREAKOUT 2018', messageFont);
+    titleText.stroke = "#32CD32";
+    titleText.strokeThickness = 6;
+    titleText.anchor.set(0.5);
+    var startText = game.add.text(game.world.width*0.5, game.world.height*0.75, playMessage, guiFont);
+    startText.stroke = "#32CD32";
+    startText.strokeThickness = 6;
+    startText.anchor.set(0.5);
   },
   start: function() {
     game.state.start('play');
