@@ -81,7 +81,7 @@ function mouseControl() {
   if(playing) {
     paddle.x = game.input.x || game.world.width*0.5;
   } else {
-    startGame();
+    game.input.onDown.add(startGame, this);
   }
 }
 
